@@ -5,23 +5,24 @@
 <p align="center">
    <a href="https://goreportcard.com/badge/github.com/serdarkkts/qelk"><img src="https://goreportcard.com/badge/github.com/serdarkkts/qelk?" alt="Go Report"></a>
   <a href="https://github.com/serdarkkts/qelk/blob/master/LICENSE"><img src="https://img.shields.io/github/license/serdarkkts/qelk?" alt="Apache 2.0"></a>
-  <a href="https://github.com/serdarkkts/qelk/releases"><img src="https://img.shields.io/github/v/release/serdarkkts/qelk" alt="Demo"></a> 
+  <a href="https://github.com/serdarkkts/qelk/releases"><img src="https://img.shields.io/github/v/release/serdarkkts/qelk" alt="Demo"></a>
 </p>
 
 ___
 [![asciicast](https://asciinema.org/a/MyGMnsuX7OMtYd2ah8KUjvXRK.svg)](https://asciinema.org/a/MyGMnsuX7OMtYd2ah8KUjvXRK)
+
 ## What is qelk?
 
 Qelk helps you to monitor your Elasticsearch cluster, execute search queries
-and creates dashboards for your search queries from your command line. 
+and creates dashboards for your search queries from your command line.
 
-Key features are: 
+Key features are:
 
 * Colorful Terminal UI.
-* Node monitoring( Memory usage, CPU, JVM, Disk usage...) 
+* Node monitoring( Memory usage, CPU, JVM, Disk usage...)
 * Node Filtering
 * Custom dashboards
-* Query parameter search 
+* Query parameter search
 * Search results with custom format
 * Supports only ES 7.x
 
@@ -29,24 +30,26 @@ Key features are:
 
 Get things done with a few commands from the cli.
 
-
 ## Installation
 
 * Go
-```bash
-$ go get -u github.com/serdarkkts/qelk
-```
-* Go to the [releases](https://github.com/serdarkkts/qelk/releases) page and download the latest one for your platform.
 
+```bash
+go install github.com/serdarkkts/qelk@latest
+```
+
+* Go to the [releases](https://github.com/serdarkkts/qelk/releases) page and download the latest one for your platform.
 
 ## Configuration
 
 Before using the qelk, create a configuration file `.qelk.yaml` in your home directory. After creating the file, there are three main configurations you can make;
 
 ### Urls
+
 Provide your ES instance urls. You can provide more than one. If you leave this field empty, qelk will attempt to connect ES instance at localhost:9200.
 
 An example configuration:
+
 ```yaml
 urls:
   - http://localhost:9200
@@ -55,9 +58,11 @@ urls:
 ```
 
 ### Authentication
+
 Provide your ES instance credentials. You can provide both username and password. If you don't want to keep your password on the config file for security reasons, you can provide only username, password will be prompted.
 
 An example configuration:
+
 ```yaml
 username: elastic
 password: elastic  #leave empty for prompt
@@ -80,13 +85,14 @@ dashboards:
 
 After that, there are 5 fields you can define in your custom dashboard. Providing all fields is not necessary, you can define only the fields you need.
 
-* index (string) - Define indices for this dashboard. Regex supported. 
-* format (array) - Define format for results. 
+* index (string) - Define indices for this dashboard. Regex supported.
+* format (array) - Define format for results.
 * sort (array)   - Define a sorting for this dashboard.
-* size (int) - Define size of this dashboard. 
+* size (int) - Define size of this dashboard.
 * query (string) - Define query for this dashboard.
 
 An example configuration with 2 custom dashboards:
+
 ```yaml
 dashboards:
   nginx:
@@ -135,7 +141,7 @@ Flags:
 Example:
 
 ```bash
-$ qelk search -q name:Onions -n 10 -f created,name,description -s created:desc
+qelk search -q name:Onions -n 10 -f created,name,description -s created:desc
 ```
 
 ### Inspect Command
@@ -161,14 +167,12 @@ dashboards:
 you can inspect your dashboard like this:
 
 ```bash
-$ qelk inspect nginx
+qelk inspect nginx
 ```
 
 ### Stats Command
 
 Monitor your ES cluster. Fields in the Stats interface mean the following.
-
-
 
 | Name             | Description                               |
 |------------------|-----------------------------------------------------------------|
@@ -203,20 +207,23 @@ Monitor your ES cluster. Fields in the Stats interface mean the following.
 You can run stats command like this,
 
 ```bash
-$ qelk stats
+qelk stats
 ```
 
 ## UI
+
 Stats and inspect commands can be run through the UI as follows:
 
 First, run the following command.
+
 ```bash
-$ qelk 
+qelk 
 ```
 
 After that you can press <kbd>F1</kbd> for `stats`, <kbd>F2</kbd> for `inspect`. You can use <kbd>tab</kbd> key for moving between different widgets, <kbd>ENTER</kbd> key for pressing buttons.
 
 ## TODO
+
 Want to contribute? Here is a short TODO list of things that aren't implemented in this application that would be nice:
 
 * [CACert connection](https://www.elastic.co/guide/en/elasticsearch/reference/master/encrypting-communications-certificates.html).
@@ -225,8 +232,7 @@ Want to contribute? Here is a short TODO list of things that aren't implemented 
 
 * Add themes for UI.
 
-* Add [shell completions](https://github.com/spf13/cobra/blob/master/shell_completions.md). 
-
+* Add [shell completions](https://github.com/spf13/cobra/blob/master/shell_completions.md).
 
 ## License
 

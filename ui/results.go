@@ -12,14 +12,16 @@
 package ui
 
 import (
+	rawJson "encoding/json"
 	"fmt"
-	"github.com/serdarkkts/qelk/es"
+	"strings"
 
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/gdamore/tcell"
 	"github.com/rivo/tview"
 	"github.com/tidwall/gjson"
-	"strings"
+
+	esc "github.com/serdarkkts/qelk/es"
 )
 
 // Line size per document.
@@ -38,7 +40,7 @@ type Results struct {
 // SearchResults initiates search results window.
 func SearchResults(sizes int, index string, query string, fields []string, sort []string) *Results {
 	// Init. grid.
-	var grid = tview.NewGrid()
+	grid := tview.NewGrid()
 	// For fields of results.
 	var sb strings.Builder
 
@@ -58,9 +60,12 @@ func SearchResults(sizes int, index string, query string, fields []string, sort 
 
 	// Reading only source field. This ignores the indices of results.(must check)
 	r := gjson.Get(jsonresults, "hits.hits.#._source")
+	jsonFields, _ := rawJson.Marshal(fields)
+	resultsHeaders := gjson.ParseBytes(jsonFields)
+	values := append(resultsHeaders.Array(), r.Array()...)
 
 	// Create rows and array for results.
-	var rows = make([]int, len(r.Array()))
+	rows := make([]int, len(r.Array()))
 	c.cells = make([]*tview.TextView, len(r.Array()))
 
 	// Check if at least one field provided.
@@ -71,7 +76,7 @@ func SearchResults(sizes int, index string, query string, fields []string, sort 
 	}
 
 	// Set results to the text views.
-	for i, hit := range r.Array() {
+	for i, hit := range values {
 		// Set line size per result.
 		rows[i] = templateLines
 

@@ -61,12 +61,11 @@ func SearchResults(sizes int, index string, query string, fields []string, sort 
 	// Reading only source field. This ignores the indices of results.(must check)
 	r := gjson.Get(jsonresults, "hits.hits.#._source")
 	jsonFields, _ := rawJson.Marshal(fields)
-	resultsHeaders := gjson.ParseBytes(jsonFields)
-	values := append(resultsHeaders.Array(), r.Array()...)
+	values := append(gjson.ParseBytes(jsonFields).Array(), r.Array()...)
 
 	// Create rows and array for results.
-	rows := make([]int, len(r.Array()))
-	c.cells = make([]*tview.TextView, len(r.Array()))
+	rows := make([]int, len(values))
+	c.cells = make([]*tview.TextView, len(values))
 
 	// Check if at least one field provided.
 	if fields[0] == "" {
